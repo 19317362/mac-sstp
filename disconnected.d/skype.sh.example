@@ -1,0 +1,8 @@
+#!/bin/bash
+
+dataPath="$1/data/Skype"
+
+if [ `ps -ef | grep -c "$dataPath$"` -gt 0 ]; then
+	spid=`ps -ef | grep "$dataPath$" | awk -F ' ' '{print $2}'`
+	kill $spid
+fi

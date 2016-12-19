@@ -1,0 +1,7 @@
+#!/bin/bash
+
+dataPath="$1/data/Skype"
+
+if [ `ps -ef | grep -c "$dataPath$"` -eq 0 ]; then
+	open -na /Applications/Skype.app --args -DataPath "$dataPath"
+fi
