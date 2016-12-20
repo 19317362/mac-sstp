@@ -18,6 +18,7 @@ case "$1" in
 		fi
 		for i in `echo "$2" | tr ',' '\n' | tr -d '[:blank:]' | grep -v -E '(\.\.|/)'`; do
 			echo "domain $i" > "/etc/resolver/$i"
+			chmod 0644 "/etc/resolver/$i"
 			if [ -n "$DNS1" ]; then
 				echo "nameserver $DNS1" >> "/etc/resolver/$i"
 			fi
