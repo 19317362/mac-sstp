@@ -9,18 +9,18 @@ function readinfo {
 	local input=''
 	while [ -z "$input" ]; do
 		if [ -n "$defval" ]; then
-			read -p "$vprompt" input
+			IFS="" read -p "$vprompt" input
 			if [ -z "$input" ]; then
 				input="$defval"
 			fi
 		else
-			read -p "$eprompt" input
+			IFS="" read -p "$eprompt" input
 		fi
 		if [ -z "$input" ]; then
 			echo "$emptymsg" >&2
 		fi
 	done
-	echo "$defval"
+	echo "$input"
 }
 
 if [ "$(whoami)" != 'root' ]; then
@@ -100,7 +100,7 @@ if [ -e "$DIR/.vpnacc" ]; then
 	. "$DIR/.vpnacc"
 fi
 
-domain=`readinfo "$domain" "User domain [$domain]: " 'User domain (example: OFFICE): ' 'User domain required, can not be empty'`
+domain=`readinfo "$domain" "User domain [$domain]: " 'User domain (example: OFFICE): ' 'User domain required, can not be empty, use a single space to clear the value'`
 
 username=`readinfo "$username" "User name [$username]: " 'User name (example: john.doe): ' 'User name required, can not be empty'`
 

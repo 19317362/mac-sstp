@@ -64,9 +64,10 @@ fi
 case "$1" in
 	'connect')
 
-		trap "{ down '$username@$host'; exit }" SIGHUP SIGINT SIGTERM
+		trap "down $username@$host" SIGHUP SIGINT SIGTERM
 
-		conf=`cat "$DIR/pppd.conf" | sed 's/\n/ /g' | grep -v -E '^(nodetach|ipparam)'`
+		conf=`cat "$DIR/pppd.conf" | grep -v -E '^(nodetach|ipparam)' | tr '\n' ' '`
+		echo "/usr/local/sbin/sstpc --log-level 2 --log-stderr --cert-warn --user \"$domain\\$username\" --password \"$password\" \"$host\" ipparam \"$username@$host\" linkname \"$username@$host\" $conf" | sed -E "s/\"$password\"/xxxxxxxxxx/" >> "$DIR/vpn.log"
 		/usr/local/sbin/sstpc --log-level 2 --log-stderr --cert-warn --user "$domain\\$username" --password "$password" "$host" ipparam "$username@$host" linkname "$username@$host" $conf 2>&1 >> "$DIR/vpn.log"
 		;;
 	'disconnect')
